@@ -103,10 +103,17 @@ public class Tax {
 
     // Getters and Setters
 }
+
+
+
+
 Step 2: Create Repositories (DB Interfaces)
 1. EmployeeRepository.java
 java
 Copy code
+
+
+
 package com.example.employeemanagement.repository;
 
 import com.example.employeemanagement.model.Employee;
@@ -114,6 +121,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 }
+
+
 2. DepartmentRepository.java
 java
 Copy code
