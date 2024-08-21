@@ -1,0 +1,273 @@
+hhYou're right! Since there are multiple references and methods across the different model classes, I'll provide you with the corrected and consistent model classes for your project to avoid errors like cannot resolve method.
+
+Here is the complete, corrected code for each model class: Employee.java, Paycheck.java, Department.java, and TaxRecord.java, including the necessary getter and setter methods.
+
+1. Employee.java
+This class should have all the required fields, including salary, and methods to get and set these fields.
+
+java
+Copy code
+package com.mecoder.emp_crud_project.model;
+
+import jakarta.persistence.*;
+import java.time.LocalDate;
+
+@Entity
+public class Employee {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String firstName;
+    private String lastName;
+    private String email;
+    private LocalDate dateOfJoining;
+    private double salary;
+
+    @ManyToOne
+    @JoinColumn(name = "department_id", nullable = false)
+    private Department department;
+
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public LocalDate getDateOfJoining() {
+        return dateOfJoining;
+    }
+
+    public void setDateOfJoining(LocalDate dateOfJoining) {
+        this.dateOfJoining = dateOfJoining;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(double salary) {
+        this.salary = salary;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+}
+2. Paycheck.java
+This class will contain fields for employee details, salary, tax amounts, etc., and all relevant getter and setter methods.
+
+java
+Copy code
+package com.mecoder.emp_crud_project.model;
+
+import jakarta.persistence.*;
+import java.time.LocalDate;
+
+@Entity
+public class Paycheck {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "employee_id", nullable = false)
+    private Employee employee;
+
+    private double salary;
+    private double taxAmount;
+    private double netPay;
+    private LocalDate payDate;
+
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(double salary) {
+        this.salary = salary;
+    }
+
+    public double getTaxAmount() {
+        return taxAmount;
+    }
+
+    public void setTaxAmount(double taxAmount) {
+        this.taxAmount = taxAmount;
+    }
+
+    public double getNetPay() {
+        return netPay;
+    }
+
+    public void setNetPay(double netPay) {
+        this.netPay = netPay;
+    }
+
+    public LocalDate getPayDate() {
+        return payDate;
+    }
+
+    public void setPayDate(LocalDate payDate) {
+        this.payDate = payDate;
+    }
+}
+3. Department.java
+This class is for storing department details and will be associated with Employee.java.
+
+java
+Copy code
+package com.mecoder.emp_crud_project.model;
+
+import jakarta.persistence.*;
+import java.util.List;
+
+@Entity
+public class Department {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    @OneToMany(mappedBy = "department")
+    private List<Employee> employees;
+
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
+    }
+}
+4. TaxRecord.java
+This class stores tax-related details for each employee.
+
+java
+Copy code
+package com.mecoder.emp_crud_project.model;
+
+import jakarta.persistence.*;
+import java.time.LocalDate;
+
+@Entity
+public class TaxRecord {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "employee_id", nullable = false)
+    private Employee employee;
+
+    private int taxYear;
+    private double yearlyTaxAmount;
+
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public int getTaxYear() {
+        return taxYear;
+    }
+
+    public void setTaxYear(int taxYear) {
+        this.taxYear = taxYear;
+    }
+
+    public double getYearlyTaxAmount() {
+        return yearlyTaxAmount;
+    }
+
+    public void setYearlyTaxAmount(double yearlyTaxAmount) {
+        this.yearlyTaxAmount = yearlyTaxAmount;
+    }
+}
+Summary of Changes
+Employee.java: Includes getSalary() and setSalary() for salary manipulation.
+Paycheck.java: Includes setEmployee(), setSalary(), setTaxAmount(), setNetPay(), and setPayDate().
+Department.java: Contains basic department information and a list of employees in the department.
+TaxRecord.java: Stores yearly tax details related to employees.
+By adding these methods, the errors like "cannot resolve method" should be resolved. Let me know if this helps or if you encounter any other issue
