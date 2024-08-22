@@ -1,0 +1,182 @@
+1. employee-list.html
+This file is for displaying the list of all employees.
+
+html
+Copy code
+<!-- src/main/resources/templates/employee-list.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee List</title>
+</head>
+<body>
+<h1>Employee List</h1>
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Department</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="employee : ${employees}">
+        <td th:text="${employee.id}"></td>
+        <td th:text="${employee.firstName}"></td>
+        <td th:text="${employee.lastName}"></td>
+        <td th:text="${employee.email}"></td>
+        <td th:text="${employee.department.name}"></td>
+        <td>
+            <a th:href="@{'/employees/edit/' + ${employee.id}}">Edit</a>
+            <a th:href="@{'/employees/delete/' + ${employee.id}}">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<a href="/employees/create">Create New Employee</a>
+</body>
+</html>
+2. employee-create.html
+This file is for creating or editing an employee.
+
+html
+Copy code
+<!-- src/main/resources/templates/employee-create.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create or Edit Employee</title>
+</head>
+<body>
+<h1 th:text="${employee.id != null} ? 'Edit Employee' : 'Create New Employee'"></h1>
+<form th:action="@{/employees}" th:object="${employee}" method="post">
+    <input type="hidden" th:field="*{id}"/>
+    <label for="firstName">First Name:</label>
+    <input type="text" id="firstName" th:field="*{firstName}"/><br/>
+    <label for="lastName">Last Name:</label>
+    <input type="text" id="lastName" th:field="*{lastName}"/><br/>
+    <label for="email">Email:</label>
+    <input type="email" id="email" th:field="*{email}"/><br/>
+    <label for="department">Department:</label>
+    <select id="department" th:field="*{department}" th:object="${departments}">
+        <option th:each="department : ${departments}"
+                th:value="${department}"
+                th:text="${department.name}"></option>
+    </select><br/>
+    <label for="salary">Salary:</label>
+    <input type="number" id="salary" th:field="*{salary}"/><br/>
+    <input type="submit" value="Save"/>
+</form>
+<a href="/employees">Back to List</a>
+</body>
+</html>
+3. paycheck-list.html
+This file will display a list of paychecks generated for employees.
+
+html
+Copy code
+<!-- src/main/resources/templates/paycheck-list.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Paycheck List</title>
+</head>
+<body>
+<h1>Paycheck List</h1>
+<table border="1">
+    <thead>
+    <tr>
+        <th>Employee</th>
+        <th>Salary</th>
+        <th>Tax Amount</th>
+        <th>Net Pay</th>
+        <th>Pay Date</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="paycheck : ${paychecks}">
+        <td th:text="${paycheck.employee.firstName + ' ' + paycheck.employee.lastName}"></td>
+        <td th:text="${paycheck.salary}"></td>
+        <td th:text="${paycheck.taxAmount}"></td>
+        <td th:text="${paycheck.netPay}"></td>
+        <td th:text="${paycheck.payDate}"></td>
+    </tr>
+    </tbody>
+</table>
+<a href="/employees">Back to Employee List</a>
+</body>
+</html>
+4. employee-detail.html
+This file will show the detailed information of an employee, including their department and paychecks.
+
+html
+Copy code
+<!-- src/main/resources/templates/employee-detail.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Details</title>
+</head>
+<body>
+<h1>Employee Details</h1>
+<p><strong>First Name:</strong> <span th:text="${employee.firstName}"></span></p>
+<p><strong>Last Name:</strong> <span th:text="${employee.lastName}"></span></p>
+<p><strong>Email:</strong> <span th:text="${employee.email}"></span></p>
+<p><strong>Date of Joining:</strong> <span th:text="${employee.dateOfJoining}"></span></p>
+<p><strong>Department:</strong> <span th:text="${employee.department.name}"></span></p>
+<p><strong>Salary:</strong> <span th:text="${employee.salary}"></span></p>
+
+<h2>Paychecks</h2>
+<table border="1">
+    <thead>
+    <tr>
+        <th>Salary</th>
+        <th>Tax Amount</th>
+        <th>Net Pay</th>
+        <th>Pay Date</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="paycheck : ${employee.paychecks}">
+        <td th:text="${paycheck.salary}"></td>
+        <td th:text="${paycheck.taxAmount}"></td>
+        <td th:text="${paycheck.netPay}"></td>
+        <td th:text="${paycheck.payDate}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<a href="/employees">Back to Employee List</a>
+</body>
+</html>
+5. login.html
+This file will handle user login.
+
+html
+Copy code
+<!-- src/main/resources/templates/login.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+<h1>Login</h1>
+<form action="/login" method="post">
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email"/><br/>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password"/><br/>
+    <input type="submit" value="Login"/>
+</form>
+</body>
+</html>
+File Structure
